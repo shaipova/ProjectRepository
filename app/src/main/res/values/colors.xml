@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="main">#F6F7FB</color>
+    <color name="secondary">#F6F7FB</color>
+    <color name="card_color">#FFFFFF</color>
+
+    <color name="start_gradient">#9296F8</color>
+    <color name="end_gradient">#B094FF</color>
+
+    <color name="tomato_red">#E05757</color>
+    <color name="tomato_plus">#9393A7</color>
+
+    <color name="play_circle_button_color">#DDD9FF</color>
+    <color name="default_state_card_button_color">#CACAE7</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="input_hint_text_color">#9393A7</color>
+
+    <color name="card_text_color">@color/black</color>
+
+    <color name="done_button_disabled">#6C6C7A</color>
+
+    <!-- schedule card -->
+    <color name="schedule_card_small_text_color">#9F9FBC</color>
+
+
+    <!-- timer screen button -->
+    <color name="enable_button_background">#EFF1F8</color>
+    <color name="button_stroke">#DCE1F4</color>
+    <color name="button_primary">#FFFFFF</color>
+
+    <!-- task color -->
+    <color name="violet_basic">#7287FD</color>
+    <color name="pink_doll">#EA76CB</color>
+    <color name="violet_dark">#8839EF</color>
+    <color name="red_basic">#EB4654</color>
+    <color name="red_dark">#B72E4C</color>
+    <color name="orange_basic">#FF7D32</color>
+
+    <color name="ocher">#EA9A2B</color>
+    <color name="green_apple">#A0CE62</color>
+    <color name="green_grass">#39AB59</color>
+    <color name="green_ocean">#249CA3</color>
+    <color name="blue_basic">#04A5E5</color>
+    <color name="navy">#1E66F5</color>
+
+    <color name="pink_tulip">#C151A3</color>
+    <color name="purple_light">#C6A0F6</color>
+    <color name="pink_peach">#ED8796</color>
+    <color name="orange_light">#F5A97F</color>
+    <color name="yellow">#FCCF72</color>
+    <color name="cyan">#89DCEB</color>
+
+    <color name="green_mermaid">#12C6C0</color>
+    <color name="green_soap">#A6DA95</color>
+    <color name="blue_grey">#9BB5EA</color>
+    <color name="green_sage">#74A9B3</color>
+    <color name="grey">#777597</color>
+    <color name="blue_jeans">#4059B3</color>
+
+</resources>

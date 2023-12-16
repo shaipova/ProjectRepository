@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">MyTomatoTrain</string>
+    <string name="task_to_do" translatable="false">task to do</string>
+    <string name="task_done" translatable="false">task done</string>
+    <string name="estimated_time" translatable="false">estimated time</string>
+    <string name="add_new_task" translatable="false">+ Add new task</string>
+    <string name="start_a_task" translatable="false">Start a task</string>
+    <string name="select_a_task" translatable="false">Select a task</string>
+    <string name="done">Done</string>
+    <string name="everyday">Everyday</string>
+</resources>

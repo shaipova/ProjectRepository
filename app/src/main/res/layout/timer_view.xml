@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/screen_padding_horizontal">
+
+    <Button
+        android:id="@+id/timer_select_a_task_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select a task"
+        android:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/timer_task_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.example.mytomatotrain.timer_circles.TimerCircle
+            android:id="@+id/timer_circle"
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
+
+        <TextView
+            android:id="@+id/timer_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="64sp"
+            android:textColor="@color/white"
+            android:text="25:00"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/timer_buttons_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            style="@style/TimerButton"
+            android:id="@+id/timer_start_empty_task_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Start a task"/>
+
+        <Button
+            style="@style/TimerButton"
+            android:id="@+id/timer_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Continue"/>
+
+        <Button
+            style="@style/TimerButton"
+            android:id="@+id/timer_stop_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Stop"/>
+
+        <Button
+            style="@style/TimerButton"
+            android:id="@+id/timer_pause_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Pause"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

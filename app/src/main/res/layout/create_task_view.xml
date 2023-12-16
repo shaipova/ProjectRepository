@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/create_task_toolbar"
+        layout="@layout/custom_create_task_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+
+        <EditText
+            android:id="@+id/enter_task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Time"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/enter_tomatoes_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="enter tomatoes number"
+            android:inputType="number" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/periodic_button_everyday"
+                    style="@style/MyTomatoTrainText.PlainText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Everyday" />
+
+                <RadioButton
+                    android:id="@+id/periodic_button_weekly"
+                    style="@style/MyTomatoTrainText.PlainText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Weekly" />
+
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+<!--        <Button-->
+<!--            android:id="@+id/done_create_task_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginTop="150dp"-->
+<!--            android:enabled="false"-->
+<!--            android:text="Done" />-->
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="main">#1D1B20</color>
+    <color name="secondary">#262639</color>
+    <color name="card_color">#333346</color>
+
+    <color name="start_gradient">#3F55A5</color>
+    <color name="end_gradient">#607EE7</color>
+
+    <color name="play_circle_button_color">#405BB8</color>
+    <color name="default_state_card_button_color">#9393A7</color>
+
+    <color name="card_text_color">@color/white</color>
+
+    <!-- timer screen button -->
+    <color name="enable_button_background">#26263C</color>
+    <color name="button_stroke">#EFF1F8</color>
+    <color name="button_primary">#EFF1F8</color>
+
+</resources>
