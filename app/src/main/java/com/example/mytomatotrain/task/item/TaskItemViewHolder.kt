@@ -1,14 +1,13 @@
 package com.example.mytomatotrain.task.item
 
 import android.graphics.PorterDuff
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.utils.dp
@@ -28,13 +27,13 @@ class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
 
     fun setTaskColor(taskColor: Int) {
-        taskColorImage.setColorFilter(ContextCompat.getColor(itemView.context, taskColor), PorterDuff.Mode.SRC_OVER)
+        taskColorImage.setColorFilter(getColor(itemView.context, taskColor), PorterDuff.Mode.SRC_OVER)
     }
 
     fun setTomatoesAmount(amount: Int) {
         repeat (amount) {
             val imageView = ImageView(itemView.context).apply {
-                setImageResource(R.drawable.icon_tomato)
+                setImageResource(R.drawable.icon_tomato_10)
                 setPadding(0, 0, 4.dp,0)
             }
             tomatoesLine.addView(imageView)

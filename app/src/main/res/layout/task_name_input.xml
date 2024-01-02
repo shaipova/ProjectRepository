@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="18dp"
+    android:background="@color/secondary">
+
+    <ImageView
+        android:id="@+id/title_task_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/task_color_circle"/>
+
+    <EditText
+        android:id="@+id/enter_task_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/card_text_color"
+        android:background="@color/secondary"
+        android:textCursorDrawable="@drawable/input_cursor"
+        android:paddingStart="8dp"
+        android:hint="New task name"
+        android:textColorHint="@color/input_hint_text_color"/>
+
+</LinearLayout>

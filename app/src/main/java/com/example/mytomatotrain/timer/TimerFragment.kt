@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.mytomatotrain.Navigator
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.Constants.TASK_KEY
@@ -30,7 +27,7 @@ class TimerFragment : Fragment(), TimerEventListener {
     private val presenter: TimerPresenter by inject()
     private var task: Task? = null
     private var currentTimerValue: Int? = null
-    //lateinit var workManager: WorkManager
+    private lateinit var workManager: WorkManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,20 +49,21 @@ class TimerFragment : Fragment(), TimerEventListener {
         presenter.setContent()
         presenter.setListeners()
 
-        //setWorkManager()
+        setWorkManager()
         TimerUpdateWorker.setListener(this)
         if (task != null) {
-            val time = task!!.listTomatoes.size * 50 // просто тестовое значение чтобы проверить отображение
+            // просто тестовое значение чтобы проверить отображение
+            // на самом деле сюда надо присылать оставшееся время по задаче
+            val time = task!!.listTomatoes.size * 50
             startTimer(time)
         }
     }
 
-//    private fun setWorkManager() {
-//
-//    }
+    private fun setWorkManager() {
+       workManager = WorkManager.getInstance(requireContext())
+    }
 
     private fun startTimer(timerValue: Int) {
-        val workManager = WorkManager.getInstance(requireContext())
         presenter.startTimer()
 
         val inputData = Data.Builder()

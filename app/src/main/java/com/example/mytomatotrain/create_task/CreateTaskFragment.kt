@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.mytomatotrain.Navigator
 import com.example.mytomatotrain.R
 import org.koin.android.ext.android.inject
 
@@ -34,7 +31,6 @@ class CreateTaskFragment : Fragment() {
         toolbarAction.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
 
         val fragmentView = CreateTaskViewImpl(view)
         presenter.attachView(fragmentView)

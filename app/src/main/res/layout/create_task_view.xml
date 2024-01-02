@@ -12,69 +12,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/screen_padding_horizontal">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/enter_task_name"
+        <com.example.mytomatotrain.create_task.TaskNameInput
+            android:id="@+id/task_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="name" />
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"/>
 
-        <TextView
+        <com.example.mytomatotrain.create_task.TomatoesAmountCounter
+            android:id="@+id/tomatoes_amount_counter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="Time"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/enter_tomatoes_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="enter tomatoes number"
-            android:inputType="number" />
+            android:layout_marginVertical="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginVertical="8dp"
+            android:background="@color/secondary">
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="14dp"
+                android:layout_marginVertical="20dp">
 
                 <RadioButton
                     android:id="@+id/periodic_button_everyday"
-                    style="@style/MyTomatoTrainText.PlainText"
+                    style="@style/MyTomatoTrainRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Everyday" />
+                    android:layout_height="20dp"
+                    android:text="@string/everyday" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"/>
 
                 <RadioButton
                     android:id="@+id/periodic_button_weekly"
-                    style="@style/MyTomatoTrainText.PlainText"
+                    style="@style/MyTomatoTrainRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="20dp"
                     android:text="Weekly" />
 
 
             </RadioGroup>
 
         </LinearLayout>
-
-<!--        <Button-->
-<!--            android:id="@+id/done_create_task_button"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginTop="150dp"-->
-<!--            android:enabled="false"-->
-<!--            android:text="Done" />-->
 
     </LinearLayout>
 </LinearLayout>

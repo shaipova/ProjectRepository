@@ -29,19 +29,26 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
     }
 
     override fun doWork(): Result {
+        Log.i("testTag", "Worker, fun doWork() start")
         //val updatedNotification = createNotification(updatedTimerValue)
         //val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         //notificationManager.notify(NOTIFICATION_ID, updatedNotification)
 
-        val timerValue = inputData.getInt(TIMER_VALUE, 25*60)
+        return try {
+            val timerValue = inputData.getInt(TIMER_VALUE, 25*60)
+            Log.i("testTag", "Worker, fun doWork(), inputData = $timerValue")
 
-        for (i in timerValue downTo 0) {
-            handler.post {
-                listener?.onTimerEvent(TimerEvent.TimerCountingEvent(i))
+
+            for (i in timerValue downTo 0) {
+                handler.post {
+                    listener?.onTimerEvent(TimerEvent.TimerCountingEvent(i))
+                }
+                Thread.sleep(1000)
             }
-            Thread.sleep(1000)
+            Result.success()
+        } catch (e: Exception) {
+            Result.failure()
         }
-        return Result.success()
     }
 
     // создаем уведомление
@@ -62,16 +69,14 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = TIMER_CHANNEL
-            val descriptionText = "Канал для уведомлений о таймере"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager = context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+        val name = TIMER_CHANNEL
+        val descriptionText = "Канал для уведомлений о таймере"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
         }
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
 
 

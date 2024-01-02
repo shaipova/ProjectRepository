@@ -53,7 +53,7 @@
         android:layout_height="24dp"/>
 
     <LinearLayout
-        android:id="@+id/schedule_card_container"
+        android:id="@+id/schedule_periodic_card_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

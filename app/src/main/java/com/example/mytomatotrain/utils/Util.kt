@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.Px
 import com.example.mytomatotrain.task.ScheduleCardInfo
 import com.example.mytomatotrain.task.Task
 
@@ -27,7 +26,6 @@ fun getScheduleCardInfo(list: List<Task>?): ScheduleCardInfo {
         estimatedTime += task.listTomatoes.size * tomatoDuration
     }
 
-    Log.i("testTag", "getScheduleCardInfo, list size = ${list.size}")
     val taskToDo = list.size
     val taskDone = list.filter { it.isTaskComplete }.size
     return ScheduleCardInfo(

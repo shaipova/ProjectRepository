@@ -13,6 +13,8 @@
 
     <color name="card_text_color">@color/white</color>
 
+    <color name="tomato_plus">#9393A7</color>
+
     <!-- timer screen button -->
     <color name="enable_button_background">#26263C</color>
     <color name="button_stroke">#EFF1F8</color>

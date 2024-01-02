@@ -1,14 +1,10 @@
 package com.example.mytomatotrain.scheduler
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.mytomatotrain.Navigator
 import com.example.mytomatotrain.R
 import org.koin.android.ext.android.inject
 
@@ -33,7 +29,6 @@ class ScheduleFragment : Fragment() {
 
         val fragmentView = ScheduleViewImpl(view)
         presenter.attachView(fragmentView)
-        //presenter.attachNavigator(this)
         presenter.setListeners()
         presenter.setContent()
     }
@@ -42,8 +37,4 @@ class ScheduleFragment : Fragment() {
         super.onDestroyView()
         presenter.detachView()
     }
-
-//    override fun navigateToRes(res: Int) {
-//        findNavController().navigate(res)
-//    }
 }
