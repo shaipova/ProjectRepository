@@ -11,6 +11,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.mytomatotrain.R
+import com.example.mytomatotrain.task.FULL_TOMATO_TIME_IN_SEC_LARGE
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.Constants.TASK_KEY
 import com.example.mytomatotrain.utils.Constants.TIMER_VALUE
@@ -26,8 +27,6 @@ class TimerFragment : Fragment(), TimerEventListener {
 
     private val presenter: TimerPresenter by inject()
     private var task: Task? = null
-    private var currentTimerValue: Int? = null
-    private lateinit var workManager: WorkManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,26 +43,35 @@ class TimerFragment : Fragment(), TimerEventListener {
 
         val fragmentView = TimerViewImpl(view)
         presenter.attachView(fragmentView)
-        presenter.setTask(task)
+        task?.let {presenter.setTask(it) }
         presenter.setTimerEventListener(this)
         presenter.setContent()
         presenter.setListeners()
+        presenter.setTimerColor(R.color.green_sage) //test
 
-        setWorkManager()
         TimerUpdateWorker.setListener(this)
+        startTimer()
+    }
+
+    private fun startTimer() {
+        var timerValue = FULL_TOMATO_TIME_IN_SEC_LARGE
         if (task != null) {
-            // просто тестовое значение чтобы проверить отображение
-            // на самом деле сюда надо присылать оставшееся время по задаче
-            val time = task!!.listTomatoes.size * 50
-            startTimer(time)
+            presenter.getCurrentLeftTimeInSec(task!!.id).subscribe(
+                {
+                    timerValue = it.listTomatoes.last().timeLeft
+                    Log.i("testTag", "timerValue = $timerValue")
+                    startTimerWithTimerValue(timerValue)
+                },{ throwable ->
+                    Log.i("testTag", "error: ${throwable.message}")
+                }
+            )
+        } else {
+            startTimerWithTimerValue(timerValue)
         }
+
     }
 
-    private fun setWorkManager() {
-       workManager = WorkManager.getInstance(requireContext())
-    }
-
-    private fun startTimer(timerValue: Int) {
+    private fun startTimerWithTimerValue(timerValue: Int) {
         presenter.startTimer()
 
         val inputData = Data.Builder()
@@ -77,36 +85,30 @@ class TimerFragment : Fragment(), TimerEventListener {
             .setInputData(inputData)
             .build()
 
-        workManager.enqueueUniquePeriodicWork(
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
             WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.REPLACE,
             timerWorkRequest
         )
     }
 
-//    private fun stopTimer() {
-//        workManager.cancelUniqueWork(WORK_NAME)
-//    }
+    private fun stopTimer() {
+        WorkManager.getInstance(requireContext()).cancelUniqueWork(WORK_NAME)
+    }
 
     override fun onTimerEvent(event: TimerEvent) {
         when (event) {
-            is TimerEvent.TimerCountingEvent -> {
-                Log.i("testTag", "Timer Counting Event, event value = ${event.timerValue}")
-
-                // приходит из воркера
+            is TimerEvent.TimerTickEvent -> presenter.updateTimer(event.timerValue) // from Worker
+            is TimerEvent.TimerPauseEvent -> stopTimer()
+            is TimerEvent.TimerStopEvent -> {
+                stopTimer()
                 presenter.updateTimer(event.timerValue)
-                currentTimerValue = event.timerValue
             }
-            is TimerEvent.TimerPauseEvent -> {
-                // приходит из презентера
-                Log.i("testTag", "Timer Pause Event")
-                currentTimerValue = event.timerValue //ну вот мы запомнили, как потом возобновить? сохранять в таймер хелпер в префсы?
-                //stopTimer()
-            }
+            is TimerEvent.TimerContinueEvent -> startTimer()
+            is TimerEvent.TimerStartEvent -> startTimer()
         }
 
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

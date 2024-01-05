@@ -1,6 +1,7 @@
 package com.example.mytomatotrain.db
 
 import com.example.mytomatotrain.task.Periodic
+import com.example.mytomatotrain.task.Status
 import com.example.mytomatotrain.task.Task
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -12,9 +13,11 @@ interface Repository {
     fun deleteTask(task: Task): Completable
     fun getTaskByName(title: String): Single<Task>
     fun getAllTasksFromPeriod(periodic: Periodic): Single<List<Task>>
+    fun updateTaskById(id: Int, newTomatoStatus: Status, timeLeft: Int): Completable
+    fun getTaskById(id: Int): Single<Task>
 }
 
-class RepositoryImpl(private val tasksDatabase: TasksDatabase): Repository {
+class RepositoryImpl(tasksDatabase: TasksDatabase) : Repository {
 
     private val dao = tasksDatabase.dao
 
@@ -25,7 +28,11 @@ class RepositoryImpl(private val tasksDatabase: TasksDatabase): Repository {
 
     override fun deleteTask(task: Task) = Completable.fromAction { dao.deleteTask(task) }
 
-    fun getTask(id: Int) = dao.getTaskById(id)
+    override fun getTaskById(id: Int) = Single
+        .fromCallable { dao.getTaskById(id) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
 
     override fun getTaskByName(title: String) = Single
         .fromCallable { dao.getTaskByName(title) }
@@ -34,6 +41,18 @@ class RepositoryImpl(private val tasksDatabase: TasksDatabase): Repository {
 
     override fun getAllTasksFromPeriod(periodic: Periodic) = Single
         .fromCallable { dao.getAllTaskFromPeriod(periodic) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+    override fun updateTaskById(id: Int, newTomatoStatus: Status, timeLeft: Int) = Completable.fromAction {
+        val task = dao.getTaskById(id)
+        if (task.listTomatoes.isNotEmpty()) {
+            val lastTomato = task.listTomatoes.last()
+            lastTomato.status = newTomatoStatus
+            lastTomato.timeLeft = timeLeft
+            dao.updateTask(task)
+        }
+    }
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

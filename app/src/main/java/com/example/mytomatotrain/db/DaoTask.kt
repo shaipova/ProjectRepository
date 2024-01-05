@@ -3,10 +3,10 @@ package com.example.mytomatotrain.db
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
+import androidx.room.Update
 import androidx.room.Upsert
 import com.example.mytomatotrain.task.Periodic
 import com.example.mytomatotrain.task.Task
-import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface DaoTask {
@@ -26,6 +26,9 @@ interface DaoTask {
 
     @Query("SELECT * FROM tasks_table WHERE periodic = :periodic")
     fun getAllTaskFromPeriod(periodic: Periodic) : List<Task>
+
+    @Update
+    fun updateTask(task: Task)
 
     // ... etc
 }

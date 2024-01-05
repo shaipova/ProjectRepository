@@ -16,8 +16,10 @@
     <color name="tomato_plus">#9393A7</color>
 
     <!-- timer screen button -->
-    <color name="enable_button_background">#26263C</color>
+    <color name="stop_button_background">#26263C</color>
     <color name="button_stroke">#EFF1F8</color>
     <color name="button_primary">#EFF1F8</color>
+    <color name="button_text_color">#1B1B2E</color>
+    <color name="button_stop_text_color">#EFF1F8</color>
 
 </resources>

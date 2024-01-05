@@ -34,7 +34,7 @@ class SchedulePresenter(
                 // и не гарантируется порядок периодиков
                 view?.setSchedulePeriodicCard(periodic, cardInfo)
             }, {
-                Log.i("testTag", "error get All Tasks From Periodic")
+                Log.i("testTag", "error get All Tasks From Periodic, ${it.message}")
             }
             )
     }

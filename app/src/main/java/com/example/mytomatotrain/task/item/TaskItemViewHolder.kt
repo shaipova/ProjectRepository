@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
+import com.example.mytomatotrain.task.Tomato
+import com.example.mytomatotrain.utils.convertMinutesInEstimatedTime
 import com.example.mytomatotrain.utils.dp
 
 class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -25,20 +27,31 @@ class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val startButton: ImageButton = itemView.findViewById(R.id.item_start_button)
     private val closeButton: ImageButton = itemView.findViewById(R.id.item_close_button)
 
+    // этот виджет ещё должен обновляться на экране таймера каждую минуту с истечением времени
+    // сделанные томаты должны закрашиваться
+    // в прогрессе - закрашиваться на свой прогресс
+    // эстимейтед тайм должно уменьшаться тоже
+
+    // надо добавить цвет задачи
 
     fun setTaskColor(taskColor: Int) {
-        taskColorImage.setColorFilter(getColor(itemView.context, taskColor), PorterDuff.Mode.SRC_OVER)
+        //taskColorImage.setColorFilter(getColor(itemView.context, taskColor), PorterDuff.Mode.SRC_OVER)
     }
 
-    fun setTomatoesAmount(amount: Int) {
-        repeat (amount) {
+    fun setTomatoesAmount(listTomatoes: List<Tomato>) {
+        // сюда надо будет добавить логику отрисовки томатов которые не полностью красные,
+        // а уже пройдены полностью или частично
+        repeat (listTomatoes.size) {
             val imageView = ImageView(itemView.context).apply {
                 setImageResource(R.drawable.icon_tomato_10)
                 setPadding(0, 0, 4.dp,0)
             }
             tomatoesLine.addView(imageView)
         }
-        tomatoesEstimatedTime.text = amount.toString() // это не время, это число томатов (пока что)
+        val minutesLeft: Int = listTomatoes.sumOf { tomato ->
+            tomato.timeLeft
+        } / 60
+        tomatoesEstimatedTime.text = convertMinutesInEstimatedTime(minutesLeft)
     }
 
     fun setTaskTitle(title: String) {

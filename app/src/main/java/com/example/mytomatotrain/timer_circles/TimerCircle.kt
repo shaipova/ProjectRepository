@@ -1,68 +1,62 @@
 package com.example.mytomatotrain.timer_circles
 
-import android.animation.ValueAnimator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat.getColor
+import com.example.mytomatotrain.R
 
 class TimerCircle @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null, // нужно потому что юзаем xml
-    defStyleAttr: Int = 0, // нужно потому что будем юзать тему
-    defStyleRes: Int = 0 // может быть нужно для использования ресурса стиля
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var circleColor: Int = Color.BLUE // some default color
-    private val circleRadiusArray = floatArrayOf(300f, 270f, 232f)
-    private val circleAlphaArray = intArrayOf(255, 125, 65)
-    private var animator: ValueAnimator? = null
+    private var rotateAnimator: ObjectAnimator? = null
 
     fun setCircleColor(color: Int) {
-        circleColor = color
+        val tintColor = getColor(context, color)
+        shapesArray.forEach { it?.setTint(tintColor) }
     }
 
-    private val paint = Paint().apply {
-        color = circleColor
-    }
+    private val shapeLarge: Drawable? = AppCompatResources.getDrawable(context, R.drawable.shape_for_timer_300)
+    private val shapeMedium: Drawable? = AppCompatResources.getDrawable(context, R.drawable.shape_for_timer_262)
+    private val shapeSmall: Drawable? = AppCompatResources.getDrawable(context, R.drawable.shape_for_timer_232)
+    private val shapesArray = arrayOf(shapeLarge, shapeMedium, shapeSmall)
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val centerX = width / 2f
-        val centerY = height / 2f
-
-        for (i in 0..2) {
-            paint.alpha = circleAlphaArray[i]
-            val radius = circleRadiusArray[i]
-            canvas.drawCircle(
-                centerX, centerY, radius, paint
-            )
+        for (i in shapesArray.indices) {
+            shapesArray[i].let {
+                val intrinsicWidth = it?.intrinsicWidth ?: (width / 2)
+                val intrinsicHeight = it?.intrinsicHeight ?: (height / 2)
+                it?.setBounds(100+i*40, 100+i*40, intrinsicWidth+20+i*50, intrinsicHeight+20+i*50)
+                it?.draw(canvas)
+            }
         }
     }
 
     fun startAnimation() {
-        animator = ValueAnimator.ofInt(125, 65) // 125, 65, 125 - ok
-        animator?.duration = 2000
-        animator?.repeatCount = ValueAnimator.INFINITE
-        animator?.repeatMode = ValueAnimator.REVERSE
-        animator?.interpolator = AccelerateDecelerateInterpolator()
-        animator?.addUpdateListener { animation ->
-            val value = animation.animatedValue as Int
-            circleAlphaArray[0] = value
-            circleAlphaArray[1] = (value * 0.8).toInt()
-            circleAlphaArray[2] = (value * 0.6).toInt()
-            invalidate()
+        if (rotateAnimator?.isStarted == true) {
+            rotateAnimator?.resume()
+        } else {
+            rotateAnimator = ObjectAnimator.ofFloat(this, "rotation", 0f, 360f).apply {
+                duration = 2000
+                interpolator = LinearInterpolator()
+                repeatCount = ObjectAnimator.INFINITE
+                start()
+            }
         }
-        animator?.start()
     }
 
     fun stopAnimation() {
-        animator?.cancel()
+        rotateAnimator?.pause()
     }
-
 }

@@ -25,7 +25,7 @@ class PeriodicTaskAdapter(private val callback: AdapterCallback) : RecyclerView.
             setTaskColor(R.color.cyan) // test
 
             //setTaskColor(item.color)
-            setTomatoesAmount(item.listTomatoes.size)
+            setTomatoesAmount(item.listTomatoes)
             setTaskTitle(item.title)
             setOnButtonClickListener {
                 callback.onTaskClicked(item)

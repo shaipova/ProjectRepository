@@ -14,7 +14,7 @@ interface TimerView {
     fun setTask(task: Task?)
     fun startTimer()
     fun stopTimer()
-
+    fun pauseTimer()
     fun updateTimer(value: String)
 
     fun setTimerColor(color: Int)
@@ -23,6 +23,8 @@ interface TimerView {
     fun setSelectTaskButtonClickListener(listener: () -> Unit)
     fun setStartTimerButtonClickListener(listener: () -> Unit)
     fun setPauseTimerButtonClickListener(listener: () -> Unit)
+    fun setContinueTimerButtonClickListener(listener: () -> Unit)
+    fun setStopTimerButtonClickListener(listener: () -> Unit)
 }
 
 class TimerViewImpl(val view: View): View(view.context), TimerView {
@@ -35,6 +37,7 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
     private val startTimerButton = view.findViewById<Button>(R.id.timer_start_empty_task_button)
     private val pauseTimerButton = view.findViewById<Button>(R.id.timer_pause_button)
     private val continueTimerButton = view.findViewById<Button>(R.id.timer_continue_button)
+    private val stopTimerButton = view.findViewById<Button>(R.id.timer_stop_button)
 
 
     override fun setTask(task: Task?) {
@@ -42,18 +45,33 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
         val taskView = LayoutInflater.from(view.context).inflate(R.layout.item_task_view, taskContainer)
         val taskViewHolder = TaskItemViewHolder(taskView)
         taskViewHolder.setTaskTitle(task.title)
-        taskViewHolder.setTomatoesAmount(task.listTomatoes.size)
+        taskViewHolder.setTomatoesAmount(task.listTomatoes)
         taskViewHolder.setTaskColor(0)
     }
 
     override fun startTimer() {
         timerCircle.startAnimation()
         pauseTimerButton.visibility = VISIBLE
-        continueTimerButton.visibility = VISIBLE
+        startTimerButton.visibility = GONE
+        continueTimerButton.visibility = GONE
+        stopTimerButton.visibility = GONE
     }
 
     override fun stopTimer() {
         timerCircle.stopAnimation()
+        continueTimerButton.visibility = GONE
+        stopTimerButton.visibility = GONE
+        pauseTimerButton.visibility = GONE
+        startTimerButton.visibility = VISIBLE
+
+    }
+
+    override fun pauseTimer() {
+        timerCircle.stopAnimation()
+        continueTimerButton.visibility = VISIBLE
+        stopTimerButton.visibility = VISIBLE
+        startTimerButton.visibility = GONE
+        pauseTimerButton.visibility = GONE
     }
 
     override fun updateTimer(value: String) {
@@ -70,6 +88,18 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
 
     override fun setStartTimerButtonClickListener(listener: () -> Unit) {
         startTimerButton.setOnClickListener {
+            listener.invoke()
+        }
+    }
+
+    override fun setContinueTimerButtonClickListener(listener: () -> Unit) {
+        continueTimerButton.setOnClickListener {
+            listener.invoke()
+        }
+    }
+
+    override fun setStopTimerButtonClickListener(listener: () -> Unit) {
+        stopTimerButton.setOnClickListener {
             listener.invoke()
         }
     }

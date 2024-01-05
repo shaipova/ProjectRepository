@@ -5,7 +5,7 @@ object Constants {
     const val TASK_KEY = "task_key"
 
     const val START_TIME = "start_time"
-    const val PAUSE_TIME = "start_time"
+    const val PAUSE_TIME = "pause_time"
     const val TIME_STORAGE = "time_storage"
 
     const val NOTIFICATION_ID = 1

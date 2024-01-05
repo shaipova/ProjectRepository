@@ -10,13 +10,14 @@
         android:id="@+id/timer_select_a_task_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select a task"
+        android:text="@string/select_a_task"
         android:visibility="visible"/>
 
     <FrameLayout
         android:id="@+id/timer_task_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -24,8 +25,8 @@
 
         <com.example.mytomatotrain.timer_circles.TimerCircle
             android:id="@+id/timer_circle"
-            android:layout_width="300dp"
-            android:layout_height="300dp"/>
+            android:layout_width="350dp"
+            android:layout_height="350dp"/>
 
         <TextView
             android:id="@+id/timer_count"
@@ -45,35 +46,47 @@
 
         <Button
             style="@style/TimerButton"
+            android:fontFamily="@font/roboto_medium"
             android:id="@+id/timer_start_empty_task_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="Start a task"/>
+            android:text="@string/start_a_task"/>
 
         <Button
             style="@style/TimerButton"
-            android:id="@+id/timer_continue_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="Continue"/>
-
-        <Button
-            style="@style/TimerButton"
-            android:id="@+id/timer_stop_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="Stop"/>
-
-        <Button
-            style="@style/TimerButton"
+            android:fontFamily="@font/roboto_medium"
             android:id="@+id/timer_pause_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="Pause"/>
+            android:text="@string/pause"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/TimerButton"
+                android:fontFamily="@font/roboto_medium"
+                android:id="@+id/timer_continue_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/continue_text"
+                android:layout_marginEnd="16dp"/>
+
+            <Button
+                style="@style/TimerButtonStop"
+                android:fontFamily="@font/roboto_medium"
+                android:id="@+id/timer_stop_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/stop"/>
+
+        </LinearLayout>
 
     </FrameLayout>
 

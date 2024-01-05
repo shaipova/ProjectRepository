@@ -27,9 +27,11 @@
 
 
     <!-- timer screen button -->
-    <color name="enable_button_background">#EFF1F8</color>
+    <color name="stop_button_background">#EFF1F8</color>
     <color name="button_stroke">#DCE1F4</color>
     <color name="button_primary">#FFFFFF</color>
+    <color name="button_text_color">#010110</color>
+    <color name="button_stop_text_color">#010110</color>
 
     <!-- task color -->
     <color name="violet_basic">#7287FD</color>

@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -12,7 +11,6 @@ import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.mytomatotrain.utils.Constants.CHANNEL_ID
-import com.example.mytomatotrain.utils.Constants.NOTIFICATION_ID
 import com.example.mytomatotrain.utils.Constants.TIMER_CHANNEL
 import com.example.mytomatotrain.utils.Constants.TIMER_VALUE
 
@@ -29,7 +27,6 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
     }
 
     override fun doWork(): Result {
-        Log.i("testTag", "Worker, fun doWork() start")
         //val updatedNotification = createNotification(updatedTimerValue)
         //val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         //notificationManager.notify(NOTIFICATION_ID, updatedNotification)
@@ -37,13 +34,15 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
         return try {
             val timerValue = inputData.getInt(TIMER_VALUE, 25*60)
             Log.i("testTag", "Worker, fun doWork(), inputData = $timerValue")
-
-
             for (i in timerValue downTo 0) {
-                handler.post {
-                    listener?.onTimerEvent(TimerEvent.TimerCountingEvent(i))
+                if (isStopped) {
+                    Result.success()
+                } else {
+                    handler.post {
+                        listener?.onTimerEvent(TimerEvent.TimerTickEvent(i))
+                    }
+                    Thread.sleep(1000)
                 }
-                Thread.sleep(1000)
             }
             Result.success()
         } catch (e: Exception) {
@@ -83,8 +82,10 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
 }
 
 sealed class TimerEvent {
-    data class TimerCountingEvent(val timerValue: Int) : TimerEvent()
-    data class TimerPauseEvent(val timerValue: Int) : TimerEvent()
-
+    data class TimerTickEvent(val timerValue: Int) : TimerEvent()
+    object TimerContinueEvent : TimerEvent()
+    object TimerPauseEvent : TimerEvent()
+    data class TimerStopEvent(val timerValue: Int) : TimerEvent()
+    object TimerStartEvent : TimerEvent()
 }
 
