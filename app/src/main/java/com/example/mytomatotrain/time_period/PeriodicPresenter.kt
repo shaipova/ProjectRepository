@@ -2,13 +2,10 @@ package com.example.mytomatotrain.time_period
 
 import android.util.Log
 import android.view.View
-import com.example.mytomatotrain.Navigator
 import com.example.mytomatotrain.TaskPresenter
 import com.example.mytomatotrain.db.Repository
 import com.example.mytomatotrain.task.Periodic
-import com.example.mytomatotrain.task.ScheduleCardInfo
 import com.example.mytomatotrain.task.Task
-import com.example.mytomatotrain.utils.emptyScheduleCardInfo
 import com.example.mytomatotrain.utils.getScheduleCardInfo
 
 interface AdapterCallback {
@@ -32,11 +29,10 @@ class PeriodicPresenter(
 
     override fun setPeriodic(periodic: Periodic) {
         this.periodic = periodic
-
     }
 
     override fun onTaskClicked(task: Task) {
-        view?.navigateToTimer(task, )
+        view?.navigateToTimer(task)
     }
 
     override fun setContent() {

@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.work.Data
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.FULL_TOMATO_TIME_IN_SEC_LARGE
@@ -16,8 +16,8 @@ import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.Constants.TASK_KEY
 import com.example.mytomatotrain.utils.Constants.TIMER_VALUE
 import com.example.mytomatotrain.utils.Constants.WORK_NAME
+import com.example.mytomatotrain.utils.getColorResByName
 import org.koin.android.ext.android.inject
-import java.util.concurrent.TimeUnit
 
 interface TimerEventListener {
     fun onTimerEvent(event: TimerEvent)
@@ -47,7 +47,7 @@ class TimerFragment : Fragment(), TimerEventListener {
         presenter.setTimerEventListener(this)
         presenter.setContent()
         presenter.setListeners()
-        presenter.setTimerColor(R.color.green_sage) //test
+        presenter.setTimerColor(getColorResByName(task?.color))
 
         TimerUpdateWorker.setListener(this)
         startTimer()
@@ -78,16 +78,13 @@ class TimerFragment : Fragment(), TimerEventListener {
             .putInt(TIMER_VALUE, timerValue)
             .build()
 
-        val timerWorkRequest = PeriodicWorkRequestBuilder<TimerUpdateWorker>(
-            repeatInterval = 1,
-            repeatIntervalTimeUnit = TimeUnit.SECONDS
-        )
+        val timerWorkRequest = OneTimeWorkRequestBuilder<TimerUpdateWorker>()
             .setInputData(inputData)
             .build()
 
-        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+        WorkManager.getInstance(requireContext()).enqueueUniqueWork(
             WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingWorkPolicy.REPLACE,
             timerWorkRequest
         )
     }

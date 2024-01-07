@@ -8,9 +8,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
+import com.example.mytomatotrain.create_task.color_picker.ColorItem
+import com.example.mytomatotrain.create_task.color_picker.ColorPickerAdapter
+import com.example.mytomatotrain.create_task.color_picker.GridLayoutDecoration
 import com.example.mytomatotrain.task.Periodic
 import com.example.mytomatotrain.task.Task
+import com.example.mytomatotrain.utils.dp
 import com.example.mytomatotrain.utils.hideSystemKeyboard
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -29,6 +34,11 @@ interface CreateTaskView {
     fun changeDoneButtonEnable(isEnabled: Boolean)
 
     fun displayTasks(list: List<Task>)
+
+    fun setColorAdapter(list: List<ColorItem>, callback: ColorPickerAdapterCallback)
+
+    fun updateColorPicker(list: List<ColorItem>)
+    fun updateTaskNameInputColor(color: Int)
 }
 
 @SuppressLint("CheckResult")
@@ -41,7 +51,8 @@ class CreateTaskViewImpl(val view: View) : View(view.context), CreateTaskView {
         view.findViewById<TomatoesAmountCounter>(R.id.tomatoes_amount_counter)
     private val toolbar = view.findViewById<Toolbar>(R.id.create_task_toolbar)
     private val toolbarDoneButton = toolbar.findViewById<TextView>(R.id.toolbar_done_button) // передать во вью и управлять через презентер
-
+    private val colorPickerGrid = view.findViewById<RecyclerView>(R.id.color_picker_grid)
+    private lateinit var adapter: ColorPickerAdapter
 
     init {
         view.setOnTouchListener { v, event ->
@@ -104,6 +115,23 @@ class CreateTaskViewImpl(val view: View) : View(view.context), CreateTaskView {
             str += " "
         }
         Toast.makeText(context, "Задача $str успешно добавлена в список", Toast.LENGTH_LONG).show()
+    }
+
+    override fun setColorAdapter(list: List<ColorItem>, callback: ColorPickerAdapterCallback) {
+        adapter = ColorPickerAdapter(callback)
+        adapter.colorList = list
+        colorPickerGrid.adapter = adapter
+        colorPickerGrid.addItemDecoration(GridLayoutDecoration(6, 24.dp))
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun updateColorPicker(list: List<ColorItem>) {
+        adapter.colorList = list
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun updateTaskNameInputColor(color: Int) {
+        taskNameInput.setTaskColor(color)
     }
 }
 

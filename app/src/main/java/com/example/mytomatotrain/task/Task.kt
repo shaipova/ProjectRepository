@@ -13,7 +13,7 @@ data class Task(
     val id: Int = 0,
     var listTomatoes: MutableList<Tomato> = mutableListOf(),
     val title: String,
-    val color: Int,
+    val color: String,
     val periodic: Periodic
 ): Serializable {
     val isTaskComplete: Boolean

@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.utils.SimpleTextWatcher
 import com.example.mytomatotrain.utils.hideSystemKeyboard
+import com.example.mytomatotrain.utils.setColor
 import io.reactivex.rxjava3.core.Observable
 
 class TaskNameInput @JvmOverloads constructor(
@@ -48,6 +49,6 @@ class TaskNameInput @JvmOverloads constructor(
     }
 
     fun setTaskColor(color: Int) {
-        taskColor.setColorFilter(color)
+        taskColor.setColor(color)
     }
 }

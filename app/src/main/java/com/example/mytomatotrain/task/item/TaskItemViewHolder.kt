@@ -1,18 +1,16 @@
 package com.example.mytomatotrain.task.item
 
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.Tomato
 import com.example.mytomatotrain.utils.convertMinutesInEstimatedTime
 import com.example.mytomatotrain.utils.dp
+import com.example.mytomatotrain.utils.setColor
 
 class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -32,10 +30,8 @@ class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     // в прогрессе - закрашиваться на свой прогресс
     // эстимейтед тайм должно уменьшаться тоже
 
-    // надо добавить цвет задачи
-
     fun setTaskColor(taskColor: Int) {
-        //taskColorImage.setColorFilter(getColor(itemView.context, taskColor), PorterDuff.Mode.SRC_OVER)
+        taskColorImage.setColor(taskColor)
     }
 
     fun setTomatoesAmount(listTomatoes: List<Tomato>) {

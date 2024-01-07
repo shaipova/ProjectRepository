@@ -7,6 +7,7 @@ import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.task.item.TaskItemViewHolder
 import com.example.mytomatotrain.time_period.AdapterCallback
+import com.example.mytomatotrain.utils.getColorResByName
 
 class PeriodicTaskAdapter(private val callback: AdapterCallback) : RecyclerView.Adapter<TaskItemViewHolder>() {
 
@@ -22,9 +23,7 @@ class PeriodicTaskAdapter(private val callback: AdapterCallback) : RecyclerView.
     override fun onBindViewHolder(holder: TaskItemViewHolder, position: Int) {
         val item = taskList[position]
         holder.apply {
-            setTaskColor(R.color.cyan) // test
-
-            //setTaskColor(item.color)
+            setTaskColor(getColorResByName(item.color))
             setTomatoesAmount(item.listTomatoes)
             setTaskTitle(item.title)
             setOnButtonClickListener {

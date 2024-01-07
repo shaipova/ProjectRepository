@@ -9,6 +9,7 @@ import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.task.item.TaskItemViewHolder
 import com.example.mytomatotrain.timer_circles.TimerCircle
+import com.example.mytomatotrain.utils.getColorResByName
 
 interface TimerView {
     fun setTask(task: Task?)
@@ -46,7 +47,7 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
         val taskViewHolder = TaskItemViewHolder(taskView)
         taskViewHolder.setTaskTitle(task.title)
         taskViewHolder.setTomatoesAmount(task.listTomatoes)
-        taskViewHolder.setTaskColor(0)
+        taskViewHolder.setTaskColor(getColorResByName(task.color))
     }
 
     override fun startTimer() {

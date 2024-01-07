@@ -8,8 +8,10 @@
     <string name="select_a_task" translatable="false">Select a task</string>
     <string name="done">Done</string>
     <string name="time_for_this_task">"Time for this task: ~ %s"</string>
+    <string name="time_for_this_task_init_text">"Time for this task: ~ 0 h 0 min"</string>
     <string name="everyday">Everyday</string>
     <string name="continue_text">Continue</string>
     <string name="stop">Stop</string>
     <string name="pause">Pause</string>
+    <string name="weekly">Weekly</string>
 </resources>
