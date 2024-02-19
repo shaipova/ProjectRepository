@@ -1,14 +1,13 @@
 package com.example.mytomatotrain.time_period
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.ScheduleCard
-import com.example.mytomatotrain.adapters.PeriodicTaskAdapter
+import com.example.mytomatotrain.adapters.PeriodicTaskListAdapter
 import com.example.mytomatotrain.task.ScheduleCardInfo
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.Constants.TASK_KEY
@@ -27,8 +26,6 @@ class PeriodicViewImpl(val view: View): View(view.context), PeriodicView {
     private val recyclerViewDoneTasks: RecyclerView = view.findViewById(R.id.periodic_recycler_view_done_tasks)
     private val doneTitle: TextView = view.findViewById(R.id.periodic_done_title)
 
-    //private var adapter: PeriodicTaskAdapter? = null
-
     override fun setPeriodicInfo(info: ScheduleCardInfo) {
         periodicInfoCard.setContent(
             estimatedTime = info.estimatedTime,
@@ -38,12 +35,11 @@ class PeriodicViewImpl(val view: View): View(view.context), PeriodicView {
     }
 
     override fun setTasksList(list: List<Task>, callback: AdapterCallback) {
-        // здесь надо сделать разделение по задачам: завершенные отображать во втором ресайклере
+        // добавить ещё один список для завершенных задач
 
-        val adapter = PeriodicTaskAdapter(callback)
-        adapter.taskList = list.toMutableList()
-        recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
+        val listAdapter = PeriodicTaskListAdapter(callback)
+        listAdapter.submitList(list)
+        recyclerView.adapter = listAdapter
     }
 
     override fun navigateToTimer(task: Task) {

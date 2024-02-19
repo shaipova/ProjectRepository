@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
@@ -47,11 +48,13 @@
         <Button
             style="@style/TimerButton"
             android:fontFamily="@font/roboto_medium"
-            android:id="@+id/timer_start_empty_task_button"
+            android:id="@+id/timer_start_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="@string/start_a_task"/>
+            android:text="@string/start_a_task"
+            app:icon="@drawable/icon_start_timer"
+            app:iconTint="@color/button_text_color"/>
 
         <Button
             style="@style/TimerButton"

@@ -9,7 +9,6 @@ import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.task.item.TaskItemViewHolder
 import com.example.mytomatotrain.timer_circles.TimerCircle
-import com.example.mytomatotrain.utils.getColorResByName
 
 interface TimerView {
     fun setTask(task: Task?)
@@ -18,8 +17,9 @@ interface TimerView {
     fun pauseTimer()
     fun updateTimer(value: String)
 
+    fun stopAnimation()
+
     fun setTimerColor(color: Int)
-    fun setEmptyTaskScenario(isEmptyTask: Boolean)
 
     fun setSelectTaskButtonClickListener(listener: () -> Unit)
     fun setStartTimerButtonClickListener(listener: () -> Unit)
@@ -35,19 +35,20 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
     private val taskContainer = view.findViewById<FrameLayout>(R.id.timer_task_container)
     private val timerCount = view.findViewById<TextView>(R.id.timer_count)
 
-    private val startTimerButton = view.findViewById<Button>(R.id.timer_start_empty_task_button)
+    private val startTimerButton = view.findViewById<Button>(R.id.timer_start_button)
     private val pauseTimerButton = view.findViewById<Button>(R.id.timer_pause_button)
     private val continueTimerButton = view.findViewById<Button>(R.id.timer_continue_button)
     private val stopTimerButton = view.findViewById<Button>(R.id.timer_stop_button)
 
 
     override fun setTask(task: Task?) {
-        if (task == null) return
+        if (task == null) {
+            setEmptyTaskScenario()
+            return
+        }
         val taskView = LayoutInflater.from(view.context).inflate(R.layout.item_task_view, taskContainer)
         val taskViewHolder = TaskItemViewHolder(taskView)
-        taskViewHolder.setTaskTitle(task.title)
-        taskViewHolder.setTomatoesAmount(task.listTomatoes)
-        taskViewHolder.setTaskColor(getColorResByName(task.color))
+        taskViewHolder.bind(task) {}
     }
 
     override fun startTimer() {
@@ -77,6 +78,10 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
 
     override fun updateTimer(value: String) {
         timerCount.text = value
+    }
+
+    override fun stopAnimation() {
+        timerCircle.stopAnimation()
     }
 
     override fun setTimerColor(color: Int) {
@@ -111,14 +116,9 @@ class TimerViewImpl(val view: View): View(view.context), TimerView {
         }
     }
 
-    override fun setEmptyTaskScenario(isEmptyTask: Boolean) {
-        if (isEmptyTask) {
-            selectTaskButton.visibility = VISIBLE
-            startTimerButton.visibility = VISIBLE
-        } else {
-            selectTaskButton.visibility = GONE
-            startTimerButton.visibility = GONE
-        }
+    private fun setEmptyTaskScenario() {
+        selectTaskButton.visibility = VISIBLE
+        startTimerButton.visibility = VISIBLE
     }
 
 }

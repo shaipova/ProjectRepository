@@ -2,26 +2,27 @@ package com.example.mytomatotrain.timer
 
 import android.view.View
 import com.example.mytomatotrain.TaskPresenter
-import com.example.mytomatotrain.db.Repository
 import com.example.mytomatotrain.task.FULL_TOMATO_TIME_IN_SEC_LARGE
 import com.example.mytomatotrain.task.Status
-import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.convertSecondsInTimerFormat
-import io.reactivex.rxjava3.core.Single
 
-class TimerPresenter(private val repository: Repository) : TaskPresenter {
+class TimerPresenter : TaskPresenter {
 
     private var view: TimerView? = null
-    private var task: Task? = null
     private var timerEventListener: TimerEventListener? = null
     private var lastTimerValue: Int? = null
+    private lateinit var timerHelper: TimerHelper
 
     override fun attachView(view: View) {
         this.view = view as TimerView
     }
 
     override fun setContent() {
-        view?.setTask(task)
+        view?.setTask(timerHelper.getTask())
+    }
+
+    override fun setHelper(timerHelper: TimerHelper) {
+        this.timerHelper = timerHelper
     }
 
     override fun setTimerEventListener(eventListener: TimerEventListener) {
@@ -42,23 +43,15 @@ class TimerPresenter(private val repository: Repository) : TaskPresenter {
         lastTimerValue = timerValue
     }
 
-    fun getCurrentLeftTimeInSec(id: Int): Single<Task> = repository.getTaskById(id)
-
-    override fun setTask(task: Task?) {
-        view?.setEmptyTaskScenario(task == null)
-        this.task = task
+    fun stopTimerAnimation() {
+        view?.stopAnimation()
     }
 
     override fun setListeners() {
-        val taskId = task?.id ?: return
-
         view?.setPauseTimerButtonClickListener {
             lastTimerValue?.let { lastValue ->
-                repository.updateTaskById(
-                    id = taskId,
-                    newTomatoStatus = Status.PAUSED,
-                    timeLeft = lastValue
-                ).subscribe({
+                timerHelper.updateTaskInDB(status = Status.PAUSED, timeLeft = lastValue)
+                    .subscribe({
                     timerEventListener?.onTimerEvent(TimerEvent.TimerPauseEvent)
                 },{})
             }
@@ -69,21 +62,15 @@ class TimerPresenter(private val repository: Repository) : TaskPresenter {
         }
         view?.setContinueTimerButtonClickListener {
             lastTimerValue?.let { lastValue ->
-                repository.updateTaskById(
-                    id = taskId,
-                    newTomatoStatus = Status.STARTED,
-                    timeLeft = lastValue
-                ).subscribe({
+                timerHelper.updateTaskInDB(status = Status.STARTED, timeLeft = lastValue)
+                    .subscribe({
                     timerEventListener?.onTimerEvent(TimerEvent.TimerContinueEvent)
                 }, {})
             }
         }
         view?.setStopTimerButtonClickListener {
-            repository.updateTaskById(
-                id = taskId,
-                newTomatoStatus = Status.CREATED,
-                timeLeft = FULL_TOMATO_TIME_IN_SEC_LARGE
-            ).subscribe({
+            timerHelper.updateTaskInDB(status = Status.CREATED, timeLeft = FULL_TOMATO_TIME_IN_SEC_LARGE)
+                .subscribe({
                 timerEventListener?.onTimerEvent(TimerEvent.TimerStopEvent(FULL_TOMATO_TIME_IN_SEC_LARGE))
             }, {})
             view?.stopTimer()

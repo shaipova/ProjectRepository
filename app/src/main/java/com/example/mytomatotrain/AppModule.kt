@@ -6,10 +6,9 @@ import com.example.mytomatotrain.db.Repository
 import com.example.mytomatotrain.db.RepositoryImpl
 import com.example.mytomatotrain.db.TasksDatabase
 import com.example.mytomatotrain.scheduler.SchedulePresenter
-import com.example.mytomatotrain.task.Periodic
 import com.example.mytomatotrain.time_period.PeriodicPresenter
+import com.example.mytomatotrain.timer.TimerHelper
 import com.example.mytomatotrain.timer.TimerPresenter
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -34,9 +33,12 @@ val appModule = module {
         PeriodicPresenter(get())
     }
     factory {
-        TimerPresenter(get())
+        TimerPresenter()
     }
     factory {
         SchedulePresenter(get())
+    }
+    factory {
+        TimerHelper(get(), get())
     }
 }

@@ -7,6 +7,8 @@ import com.example.mytomatotrain.db.Repository
 import com.example.mytomatotrain.TaskPresenter
 import com.example.mytomatotrain.create_task.color_picker.ColorItem
 import com.example.mytomatotrain.task.Periodic
+import com.example.mytomatotrain.task.TOMATO_BREAK_DURATION_IN_MIN
+import com.example.mytomatotrain.task.TOMATO_BREAK_TIME_IN_SEC
 import com.example.mytomatotrain.task.TOMATO_DURATION_IN_MIN_LARGE
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.task.Tomato
@@ -46,14 +48,16 @@ class CreateTaskPresenter(private val repository: Repository) : TaskPresenter, C
 
     private fun changeColorListSelection(color: String): List<ColorItem> {
         taskColor = color
+        changeDoneButtonEnable()
         val list = colorList.map {
             if (it.isSelected) {
-                it.isSelected = false
+                it.copy(isSelected = false)
             }
             if (it.colorResName == color) {
-                it.isSelected = true
+                it.copy(isSelected = true)
+            } else {
+                it
             }
-            it
         }
         return list
     }
@@ -142,6 +146,10 @@ class CreateTaskPresenter(private val repository: Repository) : TaskPresenter, C
         title = name,
         listTomatoes = MutableList(tomatoesAmount) { Tomato() },
         periodic = periodic!!,
-        color = taskColor
+        color = taskColor,
+        breakTomato = Tomato(
+            durationInMin = TOMATO_BREAK_DURATION_IN_MIN,
+            timeLeft = TOMATO_BREAK_TIME_IN_SEC
+        )
     )
 }

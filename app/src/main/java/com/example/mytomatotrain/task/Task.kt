@@ -12,6 +12,7 @@ data class Task(
     @PrimaryKey(true)
     val id: Int = 0,
     var listTomatoes: MutableList<Tomato> = mutableListOf(),
+    var breakTomato: Tomato,
     val title: String,
     val color: String,
     val periodic: Periodic
@@ -36,5 +37,20 @@ class ListTomatoesConverter {
     fun toListTomatoes(data: String): MutableList<Tomato> {
         val listType = object : TypeToken<MutableList<Tomato>>() {}.type
         return gson.fromJson(data, listType)
+    }
+}
+
+class TomatoConverter {
+    private val gson = Gson()
+
+    @TypeConverter
+    fun fromTomato(tomato: Tomato): String {
+        return gson.toJson(tomato)
+    }
+
+    @TypeConverter
+    fun toTomato(data: String): Tomato {
+        val type = object : TypeToken<Tomato>() {}.type
+        return gson.fromJson(data, type)
     }
 }

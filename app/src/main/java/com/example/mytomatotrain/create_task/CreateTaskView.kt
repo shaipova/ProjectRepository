@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.create_task.color_picker.ColorItem
-import com.example.mytomatotrain.create_task.color_picker.ColorPickerAdapter
+import com.example.mytomatotrain.create_task.color_picker.ColorPickerListAdapter
 import com.example.mytomatotrain.create_task.color_picker.GridLayoutDecoration
 import com.example.mytomatotrain.task.Periodic
 import com.example.mytomatotrain.task.Task
@@ -52,7 +52,7 @@ class CreateTaskViewImpl(val view: View) : View(view.context), CreateTaskView {
     private val toolbar = view.findViewById<Toolbar>(R.id.create_task_toolbar)
     private val toolbarDoneButton = toolbar.findViewById<TextView>(R.id.toolbar_done_button) // передать во вью и управлять через презентер
     private val colorPickerGrid = view.findViewById<RecyclerView>(R.id.color_picker_grid)
-    private lateinit var adapter: ColorPickerAdapter
+    private lateinit var adapter: ColorPickerListAdapter
 
     init {
         view.setOnTouchListener { v, event ->
@@ -118,15 +118,15 @@ class CreateTaskViewImpl(val view: View) : View(view.context), CreateTaskView {
     }
 
     override fun setColorAdapter(list: List<ColorItem>, callback: ColorPickerAdapterCallback) {
-        adapter = ColorPickerAdapter(callback)
-        adapter.colorList = list
+        adapter = ColorPickerListAdapter(callback)
         colorPickerGrid.adapter = adapter
         colorPickerGrid.addItemDecoration(GridLayoutDecoration(6, 24.dp))
+        adapter.submitList(list)
         adapter.notifyDataSetChanged()
     }
 
     override fun updateColorPicker(list: List<ColorItem>) {
-        adapter.colorList = list
+        adapter.submitList(list)
         adapter.notifyDataSetChanged()
     }
 

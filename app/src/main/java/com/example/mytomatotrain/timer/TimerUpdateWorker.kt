@@ -33,7 +33,6 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
 
         return try {
             val timerValue = inputData.getInt(TIMER_VALUE, 25*60)
-            Log.i("testTag", "Worker, fun doWork(), inputData = $timerValue")
             for (i in timerValue downTo 0) {
                 if (isStopped) {
                     Result.success()
@@ -44,6 +43,7 @@ class TimerUpdateWorker(val context: Context, parameters: WorkerParameters) : Wo
                     Thread.sleep(1000)
                 }
             }
+            listener?.onTimerEvent(TimerEvent.TimerEndEvent)
             Result.success()
         } catch (e: Exception) {
             Result.failure()
@@ -87,5 +87,7 @@ sealed class TimerEvent {
     object TimerPauseEvent : TimerEvent()
     data class TimerStopEvent(val timerValue: Int) : TimerEvent()
     object TimerStartEvent : TimerEvent()
+    object TimerEndEvent : TimerEvent()
+
 }
 

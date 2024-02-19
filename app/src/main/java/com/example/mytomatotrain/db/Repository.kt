@@ -15,6 +15,7 @@ interface Repository {
     fun getAllTasksFromPeriod(periodic: Periodic): Single<List<Task>>
     fun updateTaskById(id: Int, newTomatoStatus: Status, timeLeft: Int): Completable
     fun getTaskById(id: Int): Single<Task>
+    fun isTaskByIdComplete(id: Int): Single<Boolean>
 }
 
 class RepositoryImpl(tasksDatabase: TasksDatabase) : Repository {
@@ -36,6 +37,11 @@ class RepositoryImpl(tasksDatabase: TasksDatabase) : Repository {
 
     override fun getTaskByName(title: String) = Single
         .fromCallable { dao.getTaskByName(title) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+    override fun isTaskByIdComplete(id: Int) = Single
+        .fromCallable { dao.getTaskById(id).isTaskComplete }
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

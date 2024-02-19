@@ -5,16 +5,19 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytomatotrain.R
+import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.task.Tomato
 import com.example.mytomatotrain.utils.convertMinutesInEstimatedTime
 import com.example.mytomatotrain.utils.dp
+import com.example.mytomatotrain.utils.getColorResByName
 import com.example.mytomatotrain.utils.setColor
 
 class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    //private val container: ConstraintLayout = itemView.findViewById(R.id.item_task_container)
+    private val container: ConstraintLayout = itemView.findViewById(R.id.item_task_container)
     private val taskColorImage: ImageView = itemView.findViewById(R.id.item_task_color)
     private val taskTitle: TextView = itemView.findViewById(R.id.item_task_title)
     private val tomatoesLine: LinearLayout = itemView.findViewById(R.id.item_task_tomatoes_container)
@@ -30,13 +33,21 @@ class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     // в прогрессе - закрашиваться на свой прогресс
     // эстимейтед тайм должно уменьшаться тоже
 
-    fun setTaskColor(taskColor: Int) {
+    fun bind(task: Task, callback: () -> Unit) {
+        setTaskColor(getColorResByName(task.color))
+        setTomatoesAmount(task.listTomatoes)
+        setTaskTitle(task.title)
+        itemView.setOnClickListener {
+            callback.invoke()
+        }
+    }
+
+    private fun setTaskColor(taskColor: Int) {
         taskColorImage.setColor(taskColor)
     }
 
-    fun setTomatoesAmount(listTomatoes: List<Tomato>) {
-        // сюда надо будет добавить логику отрисовки томатов которые не полностью красные,
-        // а уже пройдены полностью или частично
+    private fun setTomatoesAmount(listTomatoes: List<Tomato>) {
+        // добавить логику отрисовки томатов в прогрессе и завершенных
         repeat (listTomatoes.size) {
             val imageView = ImageView(itemView.context).apply {
                 setImageResource(R.drawable.icon_tomato_10)
@@ -50,14 +61,8 @@ class TaskItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         tomatoesEstimatedTime.text = convertMinutesInEstimatedTime(minutesLeft)
     }
 
-    fun setTaskTitle(title: String) {
+    private fun setTaskTitle(title: String) {
         taskTitle.text = title
-    }
-
-    fun setOnButtonClickListener(listener: () -> Unit) {
-        itemView.setOnClickListener {
-            listener.invoke()
-        }
     }
 
 }

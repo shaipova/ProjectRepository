@@ -1,5 +1,6 @@
 package com.example.mytomatotrain.timer
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.mytomatotrain.R
 import com.example.mytomatotrain.task.FULL_TOMATO_TIME_IN_SEC_LARGE
+import com.example.mytomatotrain.task.Status
 import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.utils.Constants.TASK_KEY
 import com.example.mytomatotrain.utils.Constants.TIMER_VALUE
@@ -26,6 +28,7 @@ interface TimerEventListener {
 class TimerFragment : Fragment(), TimerEventListener {
 
     private val presenter: TimerPresenter by inject()
+    private val timerHelper: TimerHelper by inject()
     private var task: Task? = null
 
     override fun onCreateView(
@@ -40,10 +43,11 @@ class TimerFragment : Fragment(), TimerEventListener {
         super.onViewCreated(view, savedInstanceState)
 
         task = arguments?.getSerializable(TASK_KEY) as? Task
+        task?.let { timerHelper.setTask(it) }
 
         val fragmentView = TimerViewImpl(view)
         presenter.attachView(fragmentView)
-        task?.let {presenter.setTask(it) }
+        presenter.setHelper(timerHelper)
         presenter.setTimerEventListener(this)
         presenter.setContent()
         presenter.setListeners()
@@ -56,10 +60,9 @@ class TimerFragment : Fragment(), TimerEventListener {
     private fun startTimer() {
         var timerValue = FULL_TOMATO_TIME_IN_SEC_LARGE
         if (task != null) {
-            presenter.getCurrentLeftTimeInSec(task!!.id).subscribe(
+            timerHelper.getCurrentLeftTimeInSec(task!!.id).subscribe(
                 {
                     timerValue = it.listTomatoes.last().timeLeft
-                    Log.i("testTag", "timerValue = $timerValue")
                     startTimerWithTimerValue(timerValue)
                 },{ throwable ->
                     Log.i("testTag", "error: ${throwable.message}")
@@ -68,7 +71,6 @@ class TimerFragment : Fragment(), TimerEventListener {
         } else {
             startTimerWithTimerValue(timerValue)
         }
-
     }
 
     private fun startTimerWithTimerValue(timerValue: Int) {
@@ -103,8 +105,34 @@ class TimerFragment : Fragment(), TimerEventListener {
             }
             is TimerEvent.TimerContinueEvent -> startTimer()
             is TimerEvent.TimerStartEvent -> startTimer()
-        }
+            is TimerEvent.TimerEndEvent -> { // from Worker
+                turnOnEndTomatoSound()
+                stopTimer()
+                presenter.stopTimerAnimation()
+                timerHelper.updateTaskInDB(status = Status.DONE, timeLeft = 0)
+                    .subscribe({
+                        // проверяем завершена ли вся задача
+                        val id = task?.id ?: return@subscribe
+                        timerHelper.isTaskComplete(id).subscribe(
+                            { isComplete ->
+                                if (isComplete) {
+                                    Log.i("testTag", "Task Complete!")
+                                } else {
 
+                                }
+                            }, {}
+                        )
+
+                    }, {})
+            }
+        }
+    }
+
+    private fun turnOnEndTomatoSound(){
+        val mediaPlayer = MediaPlayer.create(context, R.raw.kalimba_c4_2s)
+        if (mediaPlayer != null && !mediaPlayer.isPlaying) {
+            mediaPlayer.start()
+        }
     }
 
     override fun onDestroyView() {

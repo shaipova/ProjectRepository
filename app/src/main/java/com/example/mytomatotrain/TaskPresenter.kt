@@ -2,8 +2,8 @@ package com.example.mytomatotrain
 
 import android.view.View
 import com.example.mytomatotrain.task.Periodic
-import com.example.mytomatotrain.task.Task
 import com.example.mytomatotrain.timer.TimerEventListener
+import com.example.mytomatotrain.timer.TimerHelper
 
 interface TaskPresenter {
 
@@ -11,7 +11,7 @@ interface TaskPresenter {
     fun detachView()
     fun setContent()
     fun setPeriodic(periodic: Periodic) {}
-    fun setTask(task: Task?) {}
+    fun setHelper(timerHelper: TimerHelper) {}
 
     fun setListeners() {}
 
