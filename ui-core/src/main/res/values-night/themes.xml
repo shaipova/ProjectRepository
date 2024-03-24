@@ -1,0 +1,16 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.MyTomatoTrain" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorSecondary">@color/secondary</item>
+
+        <item name="android:windowBackground">@color/main</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowActionBar">?attr/colorPrimary</item>
+
+        <item name="android:buttonStyle">@style/TimerButton</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+</resources>

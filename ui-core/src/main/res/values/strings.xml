@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ui-core</string>
+    <string name="task_done" translatable="false">task done</string>
+    <string name="task_to_do" translatable="false">task to do</string>
+    <string name="estimated_time" translatable="false">estimated time</string>
+
+    <string name="delete_task" translatable="false">Delete</string>
+    <string name="mark_as_done_task" translatable="false">Mark as done</string>
+    <string name="repeat_task">Repeat task</string>
+    <string name="start_task">Start task</string>
+    <string name="pause_task">Pause task</string>
+    <string name="close_task">Close task</string>
+    <string name="task_is_done">Task is done</string>
+    <string name="back">back</string>
+
+</resources>

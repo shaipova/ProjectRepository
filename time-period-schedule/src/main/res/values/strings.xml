@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">time-period-schedule</string>
+    <string name="add_new_task">+ Add new task</string>
+    <string name="done">Done</string>
+</resources>

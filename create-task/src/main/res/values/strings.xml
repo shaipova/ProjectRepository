@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">create-task</string>
+    <string name="time_for_this_task">"Time for this task: ~ %s"</string>
+    <string name="time_for_this_task_init_text">"Time for this task: ~ 0 h 0 min"</string>
+    <string name="weekly">Weekly</string>
+    <string name="everyday">Everyday</string>
+    <string name="done">Done</string>
+    <string name="add_task">Add a Task</string>
+    <string name="task_color">Task color</string>
+    <string name="new_task_name">New task name</string>
+    <string name="add_tomato_button">Add tomato button</string>
+</resources>

@@ -14,3 +14,17 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MyTomatoTrain"
 include ':app'
+include ':main-module'
+include ':create-task'
+include ':core-api'
+include ':ui-core'
+include ':base-util'
+include ':time-period-schedule'
+include ':time-period-schedule-api'
+include ':schedule'
+include ':schedule-api'
+include ':timer'
+include ':create-task-api'
+include ':timer-api'
+include ':core'
+include ':core-impl'

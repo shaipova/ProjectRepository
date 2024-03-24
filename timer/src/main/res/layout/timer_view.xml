@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/timer_toolbar"
+        layout="@layout/custom_toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/timer_task_container"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="@dimen/screen_padding_horizontal"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.example.ui_core.timer_circles.TimerCircleImpl
+            android:id="@+id/timer_circle"
+            android:layout_width="350dp"
+            android:layout_height="350dp"/>
+
+        <TextView
+            android:id="@+id/timer_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="64sp"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            style="@style/TimerButton"
+            android:fontFamily="@font/roboto_medium"
+            android:id="@+id/timer_start_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/start_a_task"
+            app:icon="@drawable/icon_start_timer"
+            app:iconTint="@color/button_text_color"/>
+
+        <Button
+            style="@style/TimerButton"
+            android:fontFamily="@font/roboto_medium"
+            android:id="@+id/timer_pause_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/pause"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/TimerButton"
+                android:fontFamily="@font/roboto_medium"
+                android:id="@+id/timer_continue_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/continue_text"
+                android:layout_marginEnd="16dp"/>
+
+            <Button
+                style="@style/TimerButtonStop"
+                android:fontFamily="@font/roboto_medium"
+                android:id="@+id/timer_stop_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/stop"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/quote_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:textSize="16sp" />
+
+</LinearLayout>

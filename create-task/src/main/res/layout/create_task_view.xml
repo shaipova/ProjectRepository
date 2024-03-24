@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/create_task_toolbar"
+        layout="@layout/custom_create_task_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <com.example.create_task.TaskNameInput
+            android:id="@+id/task_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.create_task.TomatoesAmountCounter
+            android:id="@+id/tomatoes_amount_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="20dp">
+
+            <RadioButton
+                android:id="@+id/periodic_button_everyday"
+                style="@style/MyTomatoTrainRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="@string/everyday" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <RadioButton
+                android:id="@+id/periodic_button_weekly"
+                style="@style/MyTomatoTrainRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="@string/weekly" />
+        </RadioGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/color_picker_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="20dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="6" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
